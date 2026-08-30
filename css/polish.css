@@ -1,0 +1,25 @@
+/* Onam Ascent competition polish layer */
+html,body{background:radial-gradient(circle at 50% -10%,#174d35 0,#071c13 55%,#04110c 100%)}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.1;background-image:radial-gradient(#ffe37a 1px,transparent 1px);background-size:28px 28px}
+.app{width:min(1160px,100%);padding:8px 14px 18px}
+.brand-flower{box-shadow:0 0 0 2px #76561b,0 5px 16px #0007}
+.hud-card{box-shadow:inset 0 1px #ffffff20,0 5px 14px #0005}
+.game-shell{box-shadow:0 0 0 2px #f0d15e,0 15px 45px #0009}
+.game-shell:after{content:"";position:absolute;inset:0;pointer-events:none;border:2px solid #fff3a030;border-radius:20px;box-shadow:inset 0 0 50px #06231855}
+.level-badge{border:2px solid #f0d15e;box-shadow:0 3px 10px #0006;backdrop-filter:blur(3px)}
+.banner{background:linear-gradient(180deg,#fff7d6,#e8cf86);box-shadow:0 4px 0 #684919,0 8px 20px #0005;clip-path:polygon(3% 0,97% 0,100% 14%,98% 86%,95% 100%,5% 100%,2% 86%,0 14%)}
+.pause{background:radial-gradient(circle at 35% 30%,#fff4a0,#e4ae2d 65%,#8c641c);border:2px solid #fff0a0;box-shadow:0 3px 0 #684919,0 5px 14px #0007}
+.progress span{background:linear-gradient(90deg,#e5ad32,#fff2a0,#d4af37);box-shadow:0 0 10px #ffe37a}
+.ground-banner{background:linear-gradient(180deg,#fff2a7,#d8ad38);box-shadow:0 3px 0 #684919,0 7px 18px #0005}
+.controls button{box-shadow:0 4px #5f4717,0 7px 13px #0003}
+.controls button:focus-visible{outline:3px solid #fff1a0;outline-offset:2px}
+body:not(.level-two) .attack,body:not(.level-two) .defend{opacity:.48;filter:saturate(.45)}
+body.level-two #jumpBtn{opacity:.45;filter:grayscale(.8)}
+body.level-two .attack,body.level-two .defend{border-radius:50%;min-height:86px;aspect-ratio:1;justify-self:center;width:120px;transition:transform .15s,box-shadow .15s,filter .15s;filter:brightness(1.05)}
+body.level-two .attack:hover,body.level-two .defend:hover{transform:translateY(-2px) scale(1.04)}
+.app:has(.energy i:nth-child(6).on) .attack,.app:has(.energy i:nth-child(6).on) .defend{box-shadow:0 0 0 3px #ffe277,0 0 22px #ffe277,0 5px #5f4717;filter:brightness(1.18)}
+.panel{box-shadow:0 18px 55px #0009,0 0 0 2px #ffe37a55}
+.best-score{border:1px solid #b98725}
+.toast{box-shadow:0 6px 20px #0007}
+@media(max-width:720px){.level-two .attack,.level-two .defend{width:100px;min-height:76px}.app{padding:5px 8px 14px}}
+@media(max-width:520px){.banner{top:9px;max-width:52%;font-size:8px;padding:7px 9px}.pause{right:9px;top:9px;width:40px;height:40px}.game-shell{border-width:3px;border-radius:18px}}
