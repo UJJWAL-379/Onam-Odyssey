@@ -1,228 +1,108 @@
-# 🌼 Onam Odyssey
-## 👑 Maveli's Kasavu Quest — Kerala Edition
+# 🌼 Onam Ascent — Maveli's Journey
 
-A lightweight Kerala-inspired browser game based on **Maveli, Onam, Kasavu colours, coconut hazards, umbrella power and Pookalam aesthetics**.
+A lightweight Kerala Onam browser game starring Maveli. Level 1 is a three-lane festival runner inspired by classic lane-runner gameplay, followed by Level 2: Vamana's stomp challenge.
 
-> 🎮 No game engine • No external libraries • No image/audio files • No API keys • GitHub Pages ready
+## ▶️ Play
 
-## ▶️ Play Online
+GitHub Pages: https://UJJWAL-379.github.io/Onam-Odyssey/
 
-**GitHub Pages:** https://UJJWAL-379.github.io/Onam-Odyssey/
+No build step, npm install, game engine or external library is required.
 
-If Pages is not enabled: **Settings → Pages → Deploy from a branch → main → /(root)**.
-
-## 🏆 Competition Highlights
-
-Built to improve the areas commonly judged in Onam/game competitions: creativity, coding complexity, Pookalam aesthetics, cultural relevance and visual polish.
-
-- 🌼 Procedural Pookalam-style Canvas art
-- 👑 Hand-drawn Maveli character
-- 🌊 Three-wave Level 1 difficulty curve
-- 🥥 15-object coconut pool for lower GC pressure
-- 👣 Level 2 stomp telegraph with a growing shadow
-- 💥 Screen shake + Canvas particles
-- ✨ Floating `+1 ☂` feedback
-- ☂️ Power carries from Level 1 to Level 2
-- ⚔️ 2 ☂ power attack that can stun the foot
-- 🛡️ Real defensive mechanic
-- 🔊 Procedural chenda-inspired Web Audio
-- 📱 Touch controls + haptic feedback where supported
-- ⏸️ Pause/resume overlay
-- 💾 Local Pookalam victory progress
-- 📲 PWA manifest + service worker
-- ⚡ `requestAnimationFrame` + delta-time clamp at `0.05s`
-- 🧩 Modular JavaScript architecture
-
-## 🎮 Gameplay
-
-### Level 1 — Maveli's Climb
-
-Maveli returns from Pathalam and climbs the festive brick paths.
-
-**Wave 1:** slower coconuts and easier collection.
-
-**Wave 2:** faster hazards.
-
-**Wave 3:** moving/bobbing upper platforms and faster hazards.
-
-Collect umbrella power and reach the golden arch. Power carries into Level 2.
-
-### Level 2 — Giant Stomp
-
-A giant foot attacks Maveli on the plain ground. Before a stomp, a shadow appears for about **0.8 seconds**, giving the player a fair reaction window.
-
-- Run sideways to escape.
-- Hold **🛡 Defend** to block an impact.
-- Spend **2 ☂ power** to attack and stun the foot.
-- Reach the finish zone to win.
-
-## 🕹️ Controls
+## 🎮 Controls
 
 | Platform | Control | Action |
 |---|---|---|
-| PC | `A` / `←` | Move left |
-| PC | `D` / `→` | Move right |
-| PC | `W` / `↑` / `Space` | Jump |
-| PC | `F` | Attack |
-| PC | `Shift` | Defend |
-| Mobile | ◀ / ▶ | Move |
-| Mobile | ⤴ JUMP | Jump |
-| Mobile | ☂ ATTACK | Attack |
-| Mobile | 🛡 HOLD TO DEFEND | Defend |
-| All | `Ⅱ / ▶` | Pause / Resume |
+| PC | A / ← | Move left |
+| PC | D / → | Move right |
+| PC | W / ↑ / Space | Jump in Level 1 |
+| PC | F | Attack in Level 2 |
+| PC | Shift | Defend in Level 2 |
+| Mobile | Swipe left/right | Change lane |
+| Mobile | Tap | Jump in Level 1 |
+| Mobile | Buttons | Move, jump, attack, defend |
+| All | Ⅱ / ▶ | Pause / resume |
 
-## ☂ Umbrella Power
+## 🌿 Level 1 — Maveli's Run
 
-- Collecting an umbrella gives **+1 ☂ power**.
-- Power carries into Level 2.
-- **2 ☂ = one attack**.
-- Defense does not consume power.
+- Three-lane perspective runner.
+- Rolling coconut hazards.
+- Jumpable Kerala festival barricades.
+- Festival-train hazards that require lane changes.
+- Glowing umbrella collectibles.
+- +25 collection score and +5 skilled dodge score.
+- Difficulty increases gradually with running time.
+- Reach the golden gateway to enter Level 2.
 
-## 🌼 Pookalam Reward
+## 👣 Level 2 — Vamana's Challenge
 
-Each completed victory increases a local victory counter. The game displays progress toward a **3-ring Pookalam reward** using browser `localStorage`. No account or server is required.
+Jump is disabled. A giant golden-ankleted foot telegraphs its stomp with a shadow and countdown.
 
-## 🔊 Audio
+- **Defend:** spend 6 umbrella power to block the next stomp.
+- **Attack:** spend stored power to strike the foot.
+- Successful attack completes the encounter.
+- Power collected in Level 1 carries into Level 2.
 
-Short chenda-inspired percussion and game sounds are synthesized with the browser's **Web Audio API**. No audio files are downloaded. Browser audio may require a user interaction first.
+## ✨ Technical Features
 
-## ⚡ Technical Design
+- Single-file `index.html` runtime.
+- Canvas rendering with procedural Kerala/Onam graphics.
+- `requestAnimationFrame` with a 50 ms delta-time clamp.
+- No external JavaScript libraries.
+- Web Audio is optional and fails silently if unavailable.
+- Touch/swipe input plus keyboard input.
+- Haptic feedback when supported.
+- Local best score and Pookalam victory progress.
+- PWA manifest and service worker for supported HTTPS browsers.
+- Defensive runtime error screen instead of a frozen/blank page.
 
-### Object pooling
-`js/pool.js` pre-allocates 15 coconut objects and reuses them instead of constantly allocating/removing objects.
+## 📥 Run in VS Code
 
-### Delta-time loop
-The game uses `requestAnimationFrame` and clamps frame delta to `0.05s`, improving stability during lag or tab switching.
-
-### Procedural graphics
-Pookalam, palms, Maveli, coconuts, platforms and the giant foot are drawn with Canvas APIs, keeping the project lightweight and free of external assets.
-
-### Modular architecture
-
-```text
-Onam-Odyssey/
-├── index.html
-├── manifest.json
-├── sw.js
-├── css/
-│   └── style.css
-├── js/
-│   ├── game.js
-│   ├── player.js
-│   ├── particles.js
-│   ├── pool.js
-│   └── audio.js
-└── README.md
-```
-
-## 📥 Download
-
-1. Open the repository.
-2. Click **Code**.
-3. Select **Download ZIP**.
-4. Extract the ZIP.
-5. Open the `Onam-Odyssey` folder.
-6. Run it using a local server (recommended for ES modules).
-
-## 🔗 Clone with Git
-
-```bash
-git clone https://github.com/UJJWAL-379/Onam-Odyssey.git
-cd Onam-Odyssey
-```
-
-VS Code:
-
-```bash
-code .
-```
-
-## ▶️ Run Locally
-
-Recommended:
+1. Download the repository ZIP and extract it.
+2. Open the extracted folder in VS Code.
+3. Open a terminal in that folder.
+4. Run:
 
 ```bash
 python -m http.server 8000
 ```
 
-Then open `http://localhost:8000`.
+5. Open `http://localhost:8000`.
 
-You can also use VS Code with a static-server/Live Server extension.
+A local server is recommended because service workers require a secure context; `localhost` is supported.
 
 ## 🌐 GitHub Pages
 
-1. **Settings → Pages**
-2. **Deploy from a branch**
-3. Branch: `main`
-4. Folder: `/(root)`
-5. **Save**
-6. Wait for deployment
-7. Open `https://UJJWAL-379.github.io/Onam-Odyssey/`
+In the repository: **Settings → Pages → Deploy from a branch → main → /(root)**.
 
-No build command is required.
+Then open:
 
-## 📲 PWA / Offline
+`https://UJJWAL-379.github.io/Onam-Odyssey/`
 
-`manifest.json` provides install metadata and `sw.js` caches the core game files. On supported HTTPS browsers, the game can be added to the home screen and reused after the first successful load.
+## 📱 Phone
 
-## 🛠️ Development Guide
+The game is designed to run in a modern mobile browser. For the best experience, open the GitHub Pages URL on the phone, use landscape orientation, and add it to the home screen if the browser offers installation.
 
-| File | Purpose |
-|---|---|
-| `index.html` | App shell, HUD and controls |
-| `css/style.css` | Responsive Onam UI/UX |
-| `js/game.js` | Game states, levels, loop and rendering |
-| `js/player.js` | Maveli movement/drawing |
-| `js/pool.js` | Coconut object pool |
-| `js/particles.js` | Particle/floating text effects |
-| `js/audio.js` | Procedural Web Audio |
-| `manifest.json` | PWA metadata |
-| `sw.js` | Offline caching |
+## 🧹 Repository structure
 
-## 🔄 Push Changes
-
-```bash
-git add .
-git commit -m "Improve Onam Odyssey"
-git push origin main
+```text
+Onam-Odyssey/
+├── index.html      # Complete playable game
+├── manifest.json   # PWA metadata
+├── sw.js           # Offline cache
+├── icon.svg        # App/browser icon
+└── README.md       # Documentation
 ```
 
-## 🐛 Troubleshooting
+## 🔧 Troubleshooting
 
-**Blank page:** run a local server because ES modules can be blocked from `file://`.
+**Game error after clicking Start:** hard-refresh the page (`Ctrl+Shift+R`) so an older service-worker cache is replaced.
 
-**No sound:** tap/click first; browser autoplay policies may block Web Audio.
+**No sound:** click/tap once; browser audio policies can block audio until user interaction.
 
-**Pages blank:** verify all `js/` and `css/` files exist on the deployed branch and Pages uses `main` + root.
+**GitHub Pages shows 404:** enable Pages from the `main` branch and root folder.
 
-**Mobile controls:** use a modern browser; haptics depend on device/browser support.
-
-## ♿ Accessibility
-
-Keyboard-only gameplay is supported. Important game objects use shape as well as colour, and audio is optional.
+**Phone controls do not respond:** use a current Chrome/Edge/Safari browser and ensure the page is not inside another scrolling frame.
 
 ## 🔒 Privacy
 
-No account or gameplay server is required. Only the local Pookalam/victory counter is stored in the browser.
-
-## 🚀 Future Ideas
-
-- More detailed pixel animation
-- More Pookalam layers
-- Full chenda rhythm patterns
-- More Kerala environments
-- Full-screen mode
-- Story/parallax scenes
-- Leaderboards
-
-## 🤝 Contributing
-
-Fork the repository, create a branch, make and test your changes on desktop/mobile, then open a Pull Request. Keep the game lightweight and culturally respectful.
-
-## 🌿 Philosophy
-
-**Traditional Kerala aesthetics + modern browser-game mechanics + lightweight code.**
-
-> 🌼 Run. Jump. Collect. Defend. Celebrate Onam. 👑
-
-# 🌼 Happy Onam!
+There is no account, server-side game data or analytics. Best score and victory progress are stored only in the browser's local storage.
