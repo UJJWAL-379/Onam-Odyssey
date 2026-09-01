@@ -1,35 +1,14 @@
-const CACHE='onam-ascent-v13';
-const CORE=['./','./index.html','./manifest.json','./icon.svg'];
-
-self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(CORE)).then(()=>self.skipWaiting())));
-
-self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key.startsWith('onam-')&&key!==CACHE).map(key=>caches.delete(key)))).then(()=>self.clients.claim())));
-
-function patchGame(text){
-  let out=text;
-  out=out.replace('function roadY(z){return 170+Math.pow(1-z,1.65)*320}function roadHalf(z){return 85+Math.pow(1-z,1.45)*410}',
-    'function roadY(z){z=Math.max(0,Math.min(1,z));return 170+Math.pow(1-z,1.65)*320}function roadHalf(z){z=Math.max(0,Math.min(1,z));return 85+Math.pow(1-z,1.45)*410}');
-  out=out.replace('46*Math.cos(ang)', 'Math.abs(46*Math.cos(ang))');
-  if(!out.includes('__onamSafeEllipse')){
-    const patch=`<script>(function(){if(window.CanvasRenderingContext2D){const p=CanvasRenderingContext2D.prototype;if(!p.__onamSafeEllipse){const e=p.ellipse;p.ellipse=function(x,y,rx,ry,rot,sa,ea,ccw){return e.call(this,x,y,Number.isFinite(rx)?Math.abs(rx):0,Number.isFinite(ry)?Math.abs(ry):0,rot,sa,ea,ccw)};p.__onamSafeEllipse=true}}})();</script>`;
-    out=out.replace('</head>',patch+'</head>');
-  }
-  return out;
-}
-
-self.addEventListener('fetch',event=>{
-  if(event.request.method!=='GET')return;
-  event.respondWith(fetch(event.request).then(async response=>{
-    if(!response.ok)return response;
-    let out=response;
-    if(event.request.destination==='document'||event.request.url.endsWith('/index.html')){
-      try{
-        const text=await response.clone().text();
-        out=new Response(patchGame(text),{status:response.status,statusText:response.statusText,headers:response.headers});
-      }catch(e){}
-    }
-    const copy=out.clone();
-    caches.open(CACHE).then(cache=>cache.put(event.request,copy)).catch(()=>{});
-    return out;
-  }).catch(()=>caches.match(event.request).then(response=>response||caches.match('./index.html'))));
-});
+const CACHE='onam-ascent-v15';
+const CORE=['./','./index.html','./manifest.json','./icon.svg','./assets/maveli.svg','./assets/train.svg','./assets/coconut.svg','./assets/umbrella.svg','./assets/foot.svg'];
+self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(c=>c.addAll(CORE)).then(()=>self.skipWaiting())));
+self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('onam-')&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
+function patchGame(text){let out=text;
+const art=`<script>(function(){window.__onamArt={};['maveli','train','coconut','umbrella','foot'].forEach(function(n){var i=new Image();i.src='assets/'+n+'.svg';window.__onamArt[n]=i})})();</script>`;
+if(!out.includes('__onamArt'))out=out.replace('</head>',art+'</head>');
+const safeDraw=`function drawMaveli(py){const A=window.__onamArt&&window.__onamArt.maveli;const px=laneX(lane);if(A&&A.complete&&A.naturalWidth){ctx.save();ctx.globalAlpha=inv>0&&Math.floor(inv*12)%2===0?.45:1;const s=1.18+(jumpY>0?.08:0);ctx.drawImage(A,px-82*s,py-190*s,164*s,219*s);if(shield){ctx.strokeStyle='#8feaff';ctx.lineWidth=7;ctx.shadowBlur=25;ctx.shadowColor='#8feaff';ctx.beginPath();ctx.arc(px,py-70,88,0,Math.PI*2);ctx.stroke()}ctx.restore()}else{ctx.fillStyle='#b76d40';ctx.beginPath();ctx.arc(px,py-125,25,0,Math.PI*2);ctx.fill();ctx.fillStyle='#fff8dc';ctx.fillRect(px-24,py-100,48,72)}}`;
+out=out.replace(/function drawSky\(\)\{[\s\S]*?\}function drawRunner/,`function drawSky(){const sky=ctx.createLinearGradient(0,0,0,H);sky.addColorStop(0,'#168fc0');sky.addColorStop(.48,'#5fc4c0');sky.addColorStop(1,'#f3d79b');ctx.fillStyle=sky;ctx.fillRect(0,0,W,H);ctx.fillStyle='#fff0a0';ctx.beginPath();ctx.arc(800,72,42,0,Math.PI*2);ctx.fill();for(let i=0;i<10;i++){const px=45+i*100,base=295+(i%2)*15;ctx.fillStyle='#267447';ctx.fillRect(px,base-150,9,150);ctx.beginPath();ctx.ellipse(px+4,base-154,43,18,0,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#3c8a50';ctx.lineWidth=7;for(let a=0;a<5;a++){ctx.beginPath();ctx.moveTo(px+4,base-150);ctx.lineTo(px-28+a*16,base-178);ctx.stroke()}}ctx.fillStyle='#7c5432';for(let i=0;i<7;i++){const px=90+i*150;ctx.fillRect(px,285,82,72);ctx.fillStyle=i%2?'#9e4033':'#7e3029';ctx.beginPath();ctx.moveTo(px-12,285);ctx.lineTo(px+41,245);ctx.lineTo(px+94,285);ctx.closePath();ctx.fill();ctx.fillStyle='#7c5432'}ctx.fillStyle='#fff1a5';ctx.font='900 15px system-ui';ctx.fillText('ഓണം',58,95)}function drawRunner`);
+out=out.replace(/function drawRunner\(\)\{[\s\S]*?\}function drawMaveli/,`function drawRunner(){drawSky();ctx.fillStyle='#b77b46';ctx.fillRect(0,330,W,210);const near=roadHalf(0),far=roadHalf(1);ctx.fillStyle='#5a3b2a';ctx.beginPath();ctx.moveTo(W/2-near,roadY(0));ctx.lineTo(W/2+near,roadY(0));ctx.lineTo(W/2+far,roadY(1));ctx.lineTo(W/2-far,roadY(1));ctx.closePath();ctx.fill();for(let z=.02;z<1;z+=.075){const y=roadY(z),h=roadHalf(z);ctx.strokeStyle='#d7b87b';ctx.lineWidth=2+7*(1-z);ctx.beginPath();ctx.moveTo(W/2-h,y);ctx.lineTo(W/2+h,y);ctx.stroke()}for(let i=0;i<2;i++){ctx.strokeStyle='#dcbf82';ctx.lineWidth=6;ctx.beginPath();ctx.moveTo(480+(i?115:-115),185);ctx.lineTo(480+(i?385:-385),H);ctx.stroke()}ctx.fillStyle='#6e4528';ctx.fillRect(414,135,42,85);ctx.fillRect(504,135,42,85);ctx.strokeStyle='#f8da70';ctx.lineWidth=15;ctx.beginPath();ctx.arc(480,170,88,Math.PI,0);ctx.stroke();ctx.fillStyle='#fff0a0';ctx.font='900 12px system-ui';ctx.fillText('ONAM EXPRESS • KERALA',395,115);for(const h of hazards.slice().sort((a,b)=>a.z-b.z)){const z=clamp(h.z,0,1),y=roadY(z),s=.18+(1-z)*1.9,px=laneX(h.lane);const A=window.__onamArt;if(h.type==='train'&&A.train&&A.train.complete)ctx.drawImage(A.train,px-110*s,y-190*s,220*s,186*s);else if(h.type==='coconut'&&A.coconut&&A.coconut.complete)ctx.drawImage(A.coconut,px-42*s,y-78*s,84*s,84*s);else{ctx.fillStyle='#9a3029';ctx.fillRect(px-30*s,y-42*s,60*s,42*s);ctx.fillStyle='#ffe47b';ctx.fillRect(px-23*s,y-35*s,46*s,8*s)}}for(const it of items){if(it.got)continue;const z=clamp(it.z,0,1),y=roadY(z)-(it.y?90:45),s=.3+(1-z)*1.5,A=window.__onamArt.umbrella;if(A&&A.complete)ctx.drawImage(A,laneX(it.lane)-31*s,y-31*s,62*s,62*s)}drawMaveli(510-jumpY)}`);
+out=out.replace(/function drawMaveli\(py\)\{[\s\S]*?\}function drawGround/,safeDraw+'function drawGround');
+out=out.replace(/function drawGround\(\)\{[\s\S]*?\}function draw\(/,`function drawGround(){const g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,'#178fbd');g.addColorStop(.52,'#86cda5');g.addColorStop(1,'#a87543');ctx.fillStyle=g;ctx.fillRect(0,0,W,H);ctx.fillStyle='#a77745';ctx.fillRect(0,350,W,190);for(let i=0;i<12;i++){const px=i*90;ctx.fillStyle='#6a472c';ctx.fillRect(px,270,70,80);ctx.fillStyle=i%2?'#87372c':'#a04434';ctx.beginPath();ctx.moveTo(px-10,270);ctx.lineTo(px+35,232);ctx.lineTo(px+80,270);ctx.closePath();ctx.fill()}for(let i=0;i<18;i++){const px=20+(i*73)%930;ctx.fillStyle='#2c7547';ctx.beginPath();ctx.arc(px,337-(i%3)*16,18,0,Math.PI*2);ctx.fill()}ctx.fillStyle='#fff0a0';ctx.font='900 16px system-ui';ctx.fillText('വാമനന്റെ പരീക്ഷ • VAMANA CHALLENGE',35,115);if(foot.tele>0){const p=1-clamp(foot.tele/.8,0,1);ctx.fillStyle='rgba(30,15,8,'+(.12+.38*p)+')';ctx.beginPath();ctx.ellipse(foot.x,485,95+125*p,20+28*p,0,0,Math.PI*2);ctx.fill();ctx.fillStyle='#fff0a0';ctx.font='900 24px system-ui';ctx.fillText('STOMP IN '+foot.tele.toFixed(1),foot.x-90,420)}const A=window.__onamArt;if(foot.visible&&A&&A.foot&&A.foot.complete)ctx.drawImage(A.foot,foot.x-160,foot.y-80,320,445);drawMaveli(505);if(shield){ctx.strokeStyle='#9cecff';ctx.lineWidth=8;ctx.shadowBlur=25;ctx.shadowColor='#9cecff';ctx.beginPath();ctx.arc(laneX(lane),445,92,0,Math.PI*2);ctx.stroke();ctx.shadowBlur=0}}function draw(`);
+return out;}
+self.addEventListener('fetch',event=>{if(event.request.method!=='GET')return;event.respondWith(fetch(event.request).then(async response=>{if(!response.ok)return response;let out=response;if(event.request.destination==='document'||event.request.url.endsWith('/index.html')){try{const text=await response.clone().text();out=new Response(patchGame(text),{status:response.status,statusText:response.statusText,headers:response.headers})}catch(e){}}caches.open(CACHE).then(c=>c.put(event.request,out.clone())).catch(()=>{});return out}).catch(()=>caches.match(event.request).then(r=>r||caches.match('./index.html'))))});
