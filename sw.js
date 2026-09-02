@@ -1,5 +1,5 @@
-const CACHE='onam-odyssey-v17';
-const CORE=['./','./index.html','./manifest.json','./icon.svg','./assets/maveli.svg','./assets/train.svg','./assets/coconut.svg','./assets/umbrella.svg','./assets/foot.svg'];
-self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(CORE)).then(()=>self.skipWaiting())));
-self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('onam-')&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
-self.addEventListener('fetch',event=>{if(event.request.method!=='GET')return;event.respondWith(fetch(event.request).then(response=>{const copy=response.clone();caches.open(CACHE).then(c=>c.put(event.request,copy)).catch(()=>{});return response}).catch(()=>caches.match(event.request).then(r=>r||caches.match('./index.html'))))});
+const CACHE='onam-odyssey-v18';
+const CORE=['./','./index.html','./competition.html','./manifest.json','./icon.svg','./assets/maveli.svg','./assets/train.svg','./assets/coconut.svg','./assets/umbrella.svg','./assets/foot.svg','./assets/maveli.gltf','./assets/train.gltf','./assets/palm.gltf','./assets/vamana-foot.gltf'];
+self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(CORE)).then(()=>self.skipWaiting())));
+self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('onam-')&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
+self.addEventListener('fetch',e=>{if(e.request.method!=='GET')return;const u=new URL(e.request.url);if(u.pathname.endsWith('/index.html')||u.pathname.endsWith('/Onam-Odyssey/')){e.respondWith(fetch('./competition.html',{cache:'no-store'}).catch(()=>caches.match('./competition.html')));return}e.respondWith(fetch(e.request).then(r=>{const c=r.clone();caches.open(CACHE).then(x=>x.put(e.request,c)).catch(()=>{});return r}).catch(()=>caches.match(e.request).then(r=>r||caches.match('./competition.html'))))});
