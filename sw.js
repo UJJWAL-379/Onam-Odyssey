@@ -1,4 +1,4 @@
-const CACHE='onam-odyssey-v20';
+const CACHE='onam-odyssey-v21';
 const CORE=['./','./index.html','./competition.html','./competition-fixed.html','./competition-v2.html','./manifest.json','./icon.svg','./assets/maveli.svg','./assets/train.svg','./assets/coconut.svg','./assets/umbrella.svg','./assets/foot.svg','./assets/maveli.gltf','./assets/train.gltf','./assets/palm.gltf','./assets/vamana-foot.gltf'];
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(CORE)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('onam-')&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
