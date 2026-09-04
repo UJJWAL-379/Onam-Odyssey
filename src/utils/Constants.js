@@ -1,0 +1,29 @@
+export const GAME_SETTINGS = {
+  WIDTH: 400,
+  HEIGHT: 700,
+  LANES: [-92, 0, 92],
+  PLAYER_Y: 585,
+  PLAYER_SPEED: 720,
+  LANE_SWITCH_TIME: 110,
+  JUMP_VELOCITY: -760,
+  GRAVITY: 1900,
+  FLOWER_SCORE: 10,
+  SADYA_SCORE: 25,
+  BASE_SPEED: 330,
+  MAX_SPEED: 620,
+  SPEED_RAMP: 7,
+  SPAWN_INTERVAL: 720,
+  INVULNERABLE_MS: 900,
+  POKALAM_SEQUENCE: ['thumba', 'chetti', 'jamanthi']
+};
+
+export const COLORS = {
+  SKY: 0x78cfe0,
+  ROAD: 0x6a492f,
+  GRASS: 0x277044,
+  GOLD: 0xffd34e,
+  GREEN: 0x1f7048,
+  CREAM: 0xf3dfae,
+  RED: 0xa6382d,
+  BLUE: 0x345d9c
+};
