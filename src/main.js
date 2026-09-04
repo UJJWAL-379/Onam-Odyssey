@@ -11,7 +11,7 @@ const config = {
   height: GAME_SETTINGS.HEIGHT,
   backgroundColor: '#052a1c',
   parent: 'game',
-  scale: { mode: Phaser.Scale.RESIZE, autoCenter: Phaser.Scale.CENTER_BOTH },
+  scale: { mode: Phaser.Scale.FIT, autoCenter: Phaser.Scale.CENTER_BOTH },
   render: { antialias: true, roundPixels: true },
   scene: [BootScene, MainMenuScene, GameScene, GameOverScene]
 };
